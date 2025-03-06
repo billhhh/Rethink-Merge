@@ -156,23 +156,23 @@ class MLP(nn.Module):
 class SimpleCNN(nn.Module):
     def __init__(self):
         super(SimpleCNN, self).__init__()
-        self.conv1 = nn.Conv2d(3, 32, kernel_size=3, padding=1)  # 3输入通道, 32输出通道
-        self.conv2 = nn.Conv2d(32, 64, kernel_size=3, padding=1)  # 32输入通道, 64输出通道
-        self.conv3 = nn.Conv2d(64, 128, kernel_size=3, padding=1)  # 64输入通道, 128输出通道
-        self.fc1 = nn.Linear(128 * 4 * 4, 256)  # 128通道, 4x4特征图
-        self.fc2 = nn.Linear(256, 10)  # CIFAR-10有10个类
-        self.dropout = nn.Dropout(0.5)  # Dropout 层，丢弃率为50%
+        self.conv1 = nn.Conv2d(3, 32, kernel_size=3, padding=1)
+        self.conv2 = nn.Conv2d(32, 64, kernel_size=3, padding=1)
+        self.conv3 = nn.Conv2d(64, 128, kernel_size=3, padding=1)
+        self.fc1 = nn.Linear(128 * 4 * 4, 256)
+        self.fc2 = nn.Linear(256, 10)
+        self.dropout = nn.Dropout(0.5)
 
     def forward(self, x):
         x = F.relu(self.conv1(x))
-        x = F.max_pool2d(x, 2)  # 2x2 最大池化
+        x = F.max_pool2d(x, 2)
         x = F.relu(self.conv2(x))
-        x = F.max_pool2d(x, 2)  # 2x2 最大池化
+        x = F.max_pool2d(x, 2)
         x = F.relu(self.conv3(x))
-        x = F.max_pool2d(x, 2)  # 2x2 最大池化
-        x = x.view(x.size(0), -1)  # 展平
+        x = F.max_pool2d(x, 2)
+        x = x.view(x.size(0), -1)
         x = F.relu(self.fc1(x))
-        x = self.dropout(x)  # 在全连接层前应用 Dropout
+        x = self.dropout(x)
         x = self.fc2(x)
         return x
 
